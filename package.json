@@ -8,5 +8,10 @@
   },
   "keywords": [],
   "author": "Jim Pick (@jimpick)",
-  "license": "MIT/Apache-2 (Permissive License Stack)"
+  "license": "MIT/Apache-2 (Permissive License Stack)",
+  "dependencies": {
+    "@google-cloud/local-auth": "^2.1.0",
+    "@googleapis/forms": "^1.1.1",
+    "dotenv": "^16.0.1"
+  }
 }

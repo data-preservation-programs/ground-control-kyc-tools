@@ -18,7 +18,7 @@ Action. It does the following:
 ## Credentials
 
 The CREDENTIALS_JSON environment variable (stored as a GitHub secret) should
-contain the contents of a credentials.json file from the Google Cloud console
+contain the contents of a credentials.json file (Base64 encoded) from the Google Cloud console
 with permissions to access the Google Drive and Google Forms API. The service
 account email should also be added as a collaborator on the Google Form.
 
