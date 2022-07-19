@@ -1,10 +1,12 @@
 sp-kyc-controller
 ===
 
-This contains a Node.js CLI application intended to be run from a
-GitHub Action. It does the following:
+Retrieves responses Google Form, checks them for validity, and syncs to a CSV file.
 
-* Checks responses from a Google Form
+This contains a Node.js CLI application intended to be run from a GitHub
+Action. It does the following:
+
+* Retrieves responses from a Google Form
 * Loads state from a JSON file
 * Compares responses against state to find new responses
 * For each new response, execute a command to validate the response,
