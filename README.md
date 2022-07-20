@@ -1,4 +1,4 @@
-sp-kyc-controller
+sp-kyc-tools
 ===
 
 Retrieves responses Google Form, checks them for validity, and syncs to a CSV file.
