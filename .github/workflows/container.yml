@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - .github/workflows/container.yml
-      - *.mjs
+      - "*.mjs"
       - package.json
 
 env:
