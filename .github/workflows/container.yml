@@ -1,11 +1,6 @@
 name: sp-kyc-tools
 
-on:
-  push:
-    paths:
-      - .github/workflows/container.yml
-      - "*.mjs"
-      - package.json
+on: [ push ]
 
 env:
   REGISTRY: ghcr.io
@@ -34,7 +29,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: build
-        run: docker built -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        run: docker build . -t ${{ env.IMAGE_NAME }}
 
       - name: Tag Docker image
         run: docker image tag ${{ env.IMAGE_NAME }} ${{ env.REGISTRY}}/${{ env.IMAGE_NAME }}
