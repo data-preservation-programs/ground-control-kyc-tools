@@ -12,4 +12,4 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-   - sync_google_form.mjs
+   - /usr/src/app/sync_google_form.mjs
