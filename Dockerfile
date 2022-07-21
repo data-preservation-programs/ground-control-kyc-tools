@@ -15,3 +15,8 @@ RUN npm install
 # Bundle app source
 COPY sync_google_form.mjs .
 
+# Copies your code file from your action repository to the filesystem path `/` of the container
+COPY entrypoint.sh /entrypoint.sh
+
+# Code file to execute when the docker container starts up (`entrypoint.sh`)
+ENTRYPOINT ["/entrypoint.sh"]
