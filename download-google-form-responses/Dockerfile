@@ -13,4 +13,4 @@ COPY package*.json ./
 RUN npm install
 
 # Bundle app source
-COPY sync_google_form.mjs .
+COPY download_google_form_responses.mjs .
