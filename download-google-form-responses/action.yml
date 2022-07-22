@@ -3,6 +3,8 @@ description: 'Greet someone and record the time'
 inputs:
   credentials-json:
     required: true
+  form-id:
+    required: true
 outputs:
   time: # id of output
     description: 'The time we greeted you'
@@ -11,5 +13,6 @@ runs:
   image: 'Dockerfile'
   env:
     CREDENTIALS_JSON: ${{ inputs.credentials-json }}
+    FORM_ID: ${{ inputs.form-id }}
   args:
-   - /usr/src/app/sync_google_form.mjs
+   - /usr/src/app/download_google_form_responses.mjs
