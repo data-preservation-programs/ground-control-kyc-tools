@@ -8,7 +8,11 @@ import 'dotenv/config'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-const formId = '1z0Ja5VidknDfngLkbAr10Z20VaKZPf2q4n5x6Bgm5v8'
+const formId = process.env.FORM_ID
+if (!formId) {
+  console.error('Missing FORM_ID!')
+  process.exit(1)
+}
 
 if (!process.env.CREDENTIALS_JSON) {
   console.error('Missing CREDENTIALS_JSON!')
@@ -34,10 +38,60 @@ async function run () {
   })
 
   const formResponse = await forms.forms.get({ formId })
-  console.log('Form:', JSON.stringify(formResponse.data, null, 2))
+  // console.log('Form:', JSON.stringify(formResponse.data, null, 2))
 
   const responses = await forms.forms.responses.list({ formId })
-  console.log('Responses:', JSON.stringify(responses.data, null, 2))
+  // console.log('Responses:', JSON.stringify(responses.data, null, 2))
+
+  // Compute column names for output (CSV friendly)
+ 
+  const columns = []
+  let page = 0
+  for (const item of formResponse.data.items) {
+    if (item.pageBreakItem) {
+      page++
+    } else if (item.questionItem) {
+      const titleWords = item.title
+        .replace(/\(.*/, '')
+        .replace(/-/g, '')
+        .replace(/\?/g, '')
+        .trim()
+        .split(' ')
+        .map(word => word.toLowerCase())
+        .slice(0, 6)
+
+      const columnName = `${page}_${titleWords.join('_')}`
+      columns.push({
+        page,
+        title: item.title,
+        questionId: item.questionItem.question.questionId,
+        columnName
+      })
+    }
+  }
+  // console.log('Columns:', columns)
+
+  const formattedResponses = []
+  for (const response of responses.data.responses) {
+    const row = {
+      responseId: response.responseId,
+      timestamp: response.lastSubmittedTime
+    }
+    const answers = response.answers
+    for (const column of columns) {
+      const answer = answers[column.questionId]
+      if (answer) {
+        if (answer.textAnswers) {
+          row[column.columnName] = answer.textAnswers.answers[0].value
+        }
+      }
+    }
+    formattedResponses.push(row)
+  }
+  formattedResponses.sort(({ timestamp: a }, { timestamp: b }) => a.localeCompare(b))
+  // console.log('Formatted Responses:', formattedResponses)
+  console.log(formattedResponses)
+
 }
 
 run()
