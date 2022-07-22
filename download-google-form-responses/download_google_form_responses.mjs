@@ -90,8 +90,11 @@ async function run () {
   }
   formattedResponses.sort(({ timestamp: a }, { timestamp: b }) => a.localeCompare(b))
   // console.log('Formatted Responses:', formattedResponses)
-  console.log(formattedResponses)
 
+  fs.mkdirSync('output', { recurse: true })
+  fs.writeFileSync('output/google-form-responses.json', JSON.stringify(formattedResponses, null, 2))
+
+  console.log(formattedResponses)
 }
 
 run()
