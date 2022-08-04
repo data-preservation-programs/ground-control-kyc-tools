@@ -24,7 +24,7 @@ const processedResponseIds = new Set()
 
 async function run () {
   const processedCsv = process.env.PROCESSED_CSV
-  if (processedCsv) {
+  if (processedCsv && fs.existsSync(processedCsv) {
     const csvData = fs.readFileSync(processedCsv, 'utf8')
     const processedRecords = await neatCsv(csvData)
     for (const record of processedRecords) {
