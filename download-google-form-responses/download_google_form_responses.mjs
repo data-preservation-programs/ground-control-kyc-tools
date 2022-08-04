@@ -4,6 +4,7 @@ import { dirname } from 'path'
 import { fileURLToPath } from 'url'
 import google from '@googleapis/forms'
 import { authenticate } from '@google-cloud/local-auth'
+import neatCsv from 'neat-csv'
 import 'dotenv/config'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -19,7 +20,18 @@ if (!process.env.CREDENTIALS_JSON) {
   process.exit(1)
 }
 
+const processedResponseIds = new Set()
+
 async function run () {
+  const processedCsv = process.env.PROCESSED_CSV
+  if (processedCsv) {
+    const csvData = fs.readFileSync(processedCsv, 'utf8')
+    const processedRecords = await neatCsv(csvData)
+    for (const record of processedRecords) {
+      processedResponseIds.add(record.responseId)
+    }
+  }
+
   const keyFile = path.join(__dirname, 'credentials.json')
   const credentialsJsonData = Buffer.from(process.env.CREDENTIALS_JSON, 'base64')
   fs.writeFileSync(keyFile, credentialsJsonData)
@@ -73,6 +85,7 @@ async function run () {
 
   const formattedResponses = []
   for (const response of responses.data.responses) {
+    if (processedResponseIds.has(response.responseId)) continue
     const row = {
       responseId: response.responseId,
       timestamp: response.lastSubmittedTime
@@ -91,7 +104,7 @@ async function run () {
   formattedResponses.sort(({ timestamp: a }, { timestamp: b }) => a.localeCompare(b))
   // console.log('Formatted Responses:', formattedResponses)
 
-  fs.mkdirSync('output', { recurse: true })
+  fs.mkdirSync('output', { recursive: true })
   fs.writeFileSync('output/google-form-responses.json', JSON.stringify(formattedResponses, null, 2))
 
   console.log(formattedResponses)

@@ -5,14 +5,14 @@ inputs:
     required: true
   form-id:
     required: true
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  processed-csv:
+    required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
   env:
     CREDENTIALS_JSON: ${{ inputs.credentials-json }}
     FORM_ID: ${{ inputs.form-id }}
+    PROCESSED_CSV: ${{ inputs.processed-csv }}
   args:
    - /usr/src/app/download_google_form_responses.mjs
