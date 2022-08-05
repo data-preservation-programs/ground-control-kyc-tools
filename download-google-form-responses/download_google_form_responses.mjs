@@ -109,7 +109,7 @@ async function run () {
       const answer = answers[column.questionId]
       if (answer) {
         if (answer.textAnswers) {
-          row[column.columnName] = answer.textAnswers.answers[0].value
+          row[column.columnName] = answer.textAnswers.answers[0].value.trim()
         }
       }
     }
