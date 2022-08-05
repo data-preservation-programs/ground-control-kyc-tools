@@ -5,9 +5,12 @@ import { fileURLToPath } from 'url'
 import google from '@googleapis/forms'
 import { authenticate } from '@google-cloud/local-auth'
 import neatCsv from 'neat-csv'
+import minimist from 'minimist'
 import 'dotenv/config'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
+
+const argv = minimist(process.argv.slice(2), { boolean: true })
 
 const formId = process.env.FORM_ID
 if (!formId) {
@@ -63,10 +66,20 @@ async function run () {
     if (item.pageBreakItem) {
       page++
     } else if (item.questionItem) {
-      const titleWords = item.title
-        .replace(/\(.*/, '')
+      let titleWords = item.title
         .replace(/-/g, '')
         .replace(/\?/g, '')
+
+      if (argv['sp-kyc']) {
+        if (titleWords.match(/\(city\)/)) {
+          titleWords = 'city'
+        }
+        if (titleWords.match(/\(country\)/)) {
+          titleWords = 'country'
+        }
+      }
+
+      titleWords = titleWords.replace(/\(.*/, '')
         .trim()
         .split(' ')
         .map(word => word.toLowerCase())
