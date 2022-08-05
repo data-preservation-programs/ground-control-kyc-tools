@@ -31,7 +31,7 @@ async function run () {
     const csvData = fs.readFileSync(processedCsv, 'utf8')
     const processedRecords = await neatCsv(csvData)
     for (const record of processedRecords) {
-      processedResponseIds.add(record.responseId)
+      processedResponseIds.add(record.response_id)
     }
   }
 
