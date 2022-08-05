@@ -68,6 +68,7 @@ async function run () {
     } else if (item.questionItem) {
       let titleWords = item.title
         .replace(/-/g, '')
+        .replace(/[./]/g, '_')
         .replace(/\?/g, '')
 
       if (argv['sp-kyc']) {
