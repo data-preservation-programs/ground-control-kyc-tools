@@ -116,7 +116,7 @@ async function run () {
             }
           }
           if (results.length > 1) {
-            row[column.columnName] = results
+            row[column.columnName] = results.join(", ")
           }
           else {
             row[column.columnName] = results[0]
