@@ -109,7 +109,18 @@ async function run () {
       const answer = answers[column.questionId]
       if (answer) {
         if (answer.textAnswers) {
-          row[column.columnName] = answer.textAnswers.answers[0].value.trim()
+          const results = []
+          for (const option of answer.textAnswers.answers) {
+            if (option.value) {
+              results.push(option.value.trim())
+            }
+          }
+          if (results.length > 1) {
+            row[column.columnName] = results
+          }
+          else {
+            row[column.columnName] = results[0]
+          }
         }
       }
     }
