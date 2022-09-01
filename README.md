@@ -4,8 +4,9 @@ sp-kyc-tools
 Retrieves responses Google Form, checks them for validity, and syncs to a CSV file.
 
 This contains a Node.js CLI application intended to be run from a GitHub
-Action. It does the following:
+Action. It downloads Google Form answers from the SP application.
 
+The overall Ground Control project does the following:
 * Retrieves responses from a Google Form
 * Loads state from a JSON file
 * Compares responses against state to find new responses
