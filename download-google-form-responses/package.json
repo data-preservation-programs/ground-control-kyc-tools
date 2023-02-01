@@ -1,5 +1,5 @@
 {
-  "name": "sp-kyc-controller-download-google-form-responses",
+  "name": "ground-control-kyc-controller-download-google-form-responses",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
